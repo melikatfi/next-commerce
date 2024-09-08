@@ -1,12 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface IProduct {
-  id: string;
-  title: string;
-  img: string;
-  price: number;
-  quantity: number;
-}
+import { IProduct } from "../types";
 
 const initialState: Array<IProduct> = [];
 
@@ -30,6 +23,6 @@ export const cartSlice = createSlice({
     },
   },
 });
- 
+
 export const { addToCart, removeFromCart } = cartSlice.actions;
 export default cartSlice.reducer;
