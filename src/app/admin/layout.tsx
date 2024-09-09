@@ -1,29 +1,31 @@
 "use client";
 
+import Loader from "@/components/admin-panel/Loader";
+import Navbar from "@/components/admin-panel/Navbar";
 import Login from "@/components/admin-panel/Login";
+import Sidebar from "@/components/admin-panel/Sidebar";
 import { useAppSelector } from "@/redux/hooks";
 import { useSession } from "next-auth/react";
 import React from "react";
 
-// Corrected component name to start with an uppercase letter
-const Layout = () => {
-  // Comment out or remove the unused variable to avoid the ESLint warning
+const Layout = ({ children }: { children: React.ReactNode }) => {
   const isLoading = useAppSelector((store) => store.loadingReducer);
   const { data: session } = useSession();
 
-  // Use the isLoading variable if needed, or remove it if unnecessary
-  // For demonstration, we'll use it in a simple condition:
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  // Show login page if the user is not authenticated
   if (!session?.user) {
     return <Login />;
   }
 
-  // Render the main content if the user is authenticated
-  return <div>this is layout</div>;
+  return (
+    <div className="flex">
+      <Sidebar />
+      <div className="w-full h-full">
+        <Navbar />
+        <div className="bg-gray-200 p-4 h-[calc(100vh-64px)]">{children}</div>
+      </div>
+      {isLoading && <Loader />}
+    </div>
+  );
 };
 
-export default Layout; // Make sure to export the component with a capitalized name
+export default Layout;
